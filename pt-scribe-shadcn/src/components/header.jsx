@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Package2, Menu, Search, CircleUser, Mic, FileText, Calendar } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,9 +15,16 @@ import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import PTScribeLogo from "@/src/assets/ptscribefull.png";
 
 const Header = ({currentPage}) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/app/login');
+  };
   const navItems = [
     { to: "/app/record", label: "Record", className: currentPage === "record" ? "text-foreground" : "text-muted-foreground" },
     { to: "/app/notes", label: "Notes", className: currentPage === "notes" ? "text-foreground" : "text-muted-foreground" },
+    { to: "/app/patients", label: "Patients", className: currentPage === "patients" ? "text-foreground" : "text-muted-foreground" },
     { to: "/app/calendar", label: "Calendar", className: currentPage === "calendar" ? "text-foreground" : "text-muted-foreground" },
   ];
 
@@ -101,7 +108,7 @@ const Header = ({currentPage}) => {
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

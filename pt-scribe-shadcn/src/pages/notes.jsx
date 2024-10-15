@@ -1,10 +1,9 @@
+import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Header from "../components/header"
-
 import { MoreHorizontal } from "lucide-react"
-
 import {
   Card,
   CardContent,
@@ -29,35 +28,35 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
+import API from '../api/api';
+
 export function Notes() {
-  var tableData = [
-    {
-      Patient: "John Doe",
-      Date: "2024-03-15",
-      Length: "30",
-      Type: "Consultation"
-    },
-    {
-      Patient: "John Doe",
-      Date: "2024-03-16",
-      Length: "60",
-      Type: "Consultation"
-    }
-  ];
+  const [tableData, setTableData] = useState([]);
 
-  const doubleData = (data) => {
-    return [...data, ...data.map(item => ({...item}))];
-  };
+  useEffect(() => {
+    const fetchNotes = async () => {
+      try {
+        const response = await API.get('/notes');
+        const notes = response.data;
 
-  const generateData = (initialData, targetCount) => {
-    let result = [...initialData];
-    while (result.length < targetCount) {
-      result = doubleData(result);
-    }
-    return result.slice(0, targetCount);
-  };
+        // Format the data as needed
+        const formattedNotes = notes.map(note => ({
+          Patient: note.patient_id, // You might need to fetch patient details separately
+          Date: note.date_recorded,
+          Length: note.length,
+          Type: note.type,
+          NoteID: note.id,
+        }));
+        setTableData(formattedNotes);
+      } catch (error) {
+        console.error('Error fetching notes:', error);
+        // Handle the error, e.g., redirect to login if unauthorized
+      }
+    };
 
-  tableData = generateData(tableData, 12);
+    fetchNotes();
+  }, []);
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <Header currentPage="notes" />
@@ -120,5 +119,5 @@ export function Notes() {
         </Card>
       </main>
     </div>
-  )
+  );
 }

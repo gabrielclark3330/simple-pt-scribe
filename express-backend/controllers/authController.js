@@ -1,6 +1,9 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { body, validationResult } from 'express-validator';
+
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export const signup = [
@@ -90,3 +93,8 @@ export const login = [
     }
   },
 ];
+
+export const validateToken = (req, res) => {
+  // If the request reaches here, the token has been validated by the middleware
+  res.status(200).json({ message: 'Token is valid.' });
+};
