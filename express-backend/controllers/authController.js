@@ -41,7 +41,16 @@ export const signup = [
       );
 
       // Generate a JWT token upon signup
-      const token = jwt.sign({ id: result.rows[0].id }, JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign(
+        { 
+          id: result.rows[0].id,
+          email: result.rows[0].email,
+          first_name: result.rows[0].first_name,
+          last_name: result.rows[0].last_name
+        }, 
+        JWT_SECRET, 
+        { expiresIn: '12h' }
+      );
 
       res.status(201).json({ message: 'User created successfully', token });
     } catch (err) {
@@ -84,7 +93,16 @@ export const login = [
       }
 
       // Generate a JWT token
-      const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign(
+        { 
+          id: user.id,
+          email: user.email,
+          first_name: user.first_name,
+          last_name: user.last_name
+        }, 
+        JWT_SECRET, 
+        { expiresIn: '12h' }
+      );
 
       res.status(200).json({ message: 'Login successful', token });
     } catch (err) {

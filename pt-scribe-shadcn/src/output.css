@@ -936,6 +936,10 @@ body {
   margin-top: auto;
 }
 
+.ml-4 {
+  margin-left: 1rem;
+}
+
 .block {
   display: block;
 }
@@ -1191,6 +1195,10 @@ body {
 
 .w-6 {
   width: 1.5rem;
+}
+
+.w-\[300px\] {
+  width: 300px;
 }
 
 .min-w-0 {
@@ -2152,6 +2160,10 @@ body {
 
 .opacity-90 {
   opacity: 0.9;
+}
+
+.opacity-100 {
+  opacity: 1;
 }
 
 .shadow {
@@ -3169,6 +3181,10 @@ body {
 
   .sm\:max-w-sm {
     max-width: 24rem;
+  }
+
+  .sm\:max-w-\[425px\] {
+    max-width: 425px;
   }
 
   .sm\:flex-initial {

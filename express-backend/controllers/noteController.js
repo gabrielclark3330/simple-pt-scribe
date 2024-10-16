@@ -10,7 +10,22 @@ export const createNote = async (req, res) => {
     note_content,
   } = req.body;
 
+  if (!patient_id || !transcript || length === undefined || !type || !note_owner || !note_content) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
   try {
+    const patientResult = await pool.query('SELECT * FROM patient WHERE id = $1', [patient_id]);
+    if (patientResult.rows.length === 0) {
+      return res.status(400).json({ error: 'Invalid patient_id' });
+    }
+
+    // Verify that note_owner matches the authenticated user
+    // Assuming you have access to req.user from authentication middleware
+    if (req.user.id !== note_owner) {
+      return res.status(403).json({ error: 'Unauthorized to create note for this user' });
+    }
+
     const result = await pool.query(
       `INSERT INTO note
       (patient_id, transcript, length, date_recorded, type, note_owner, note_content)
@@ -23,7 +38,7 @@ export const createNote = async (req, res) => {
         date_recorded,
         type,
         note_owner,
-        note_content,
+        JSON.stringify(note_content),
       ]
     );
     res.status(201).json(result.rows[0]);
