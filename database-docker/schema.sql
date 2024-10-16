@@ -1,10 +1,3 @@
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 16.4 (Debian 16.4-1.pgdg120+1)
--- Dumped by pg_dump version 16.4 (Debian 16.4-1.pgdg120+1)
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
@@ -28,14 +21,11 @@ CREATE TABLE public.note (
     id integer NOT NULL,
     patient_id integer,
     transcript text,
-    subjective text,
-    objective text,
-    assessment text,
-    plan text,
     length text,
-    date_recorded text,
     type text,
-    note_owner integer
+    note_owner integer,
+    note_content jsonb,
+    date_recorded timestamp with time zone
 );
 
 
@@ -141,6 +131,20 @@ ALTER TABLE ONLY public.profile
 
 ALTER TABLE ONLY public.profile
     ADD CONSTRAINT profile_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: idx_note_date_recorded; Type: INDEX; Schema: public; Owner: myuser
+--
+
+CREATE INDEX idx_note_date_recorded ON public.note USING btree (date_recorded);
+
+
+--
+-- Name: idx_note_patient_id; Type: INDEX; Schema: public; Owner: myuser
+--
+
+CREATE INDEX idx_note_patient_id ON public.note USING btree (patient_id);
 
 
 --
