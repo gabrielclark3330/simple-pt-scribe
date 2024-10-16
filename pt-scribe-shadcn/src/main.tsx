@@ -14,6 +14,8 @@ import {
 } from 'react-router-dom';
 import { Patients } from '@/src/pages/patients';
 import { Calendar } from '@/src/pages/calendar';
+import { Settings } from '@/src/pages/settings';
+import { Patient } from '@/src/pages/patient';
 
 const router = createBrowserRouter([
   {
@@ -61,6 +63,22 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Calendar />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'app/settings',
+        element: (
+          <PrivateRoute>
+            <Settings />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'app/patient/:id',
+        element: (
+          <PrivateRoute>
+            <Patient />
           </PrivateRoute>
         ),
       }
